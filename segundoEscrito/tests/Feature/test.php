@@ -37,4 +37,44 @@ class test extends TestCase
             "telefono" => 1234
         ]);
     }
+
+    public function eliminarPersona()
+    {
+        $response = $this->delete('/api/personas/1');
+        $response -> assertStatus(200);    
+        $response -> assertJsonStructure(['mensaje']);
+        $response -> assertJsonFragment([ 'mensaje' => 'Persona eliminada']);
+
+        $this->assertDatabaseMissing('persona', [
+            'id' => '1',
+            'deleted_at' => null
+        ]);
+    }
+
+    public function test_ModificarPersona(){
+        $estructuraEsperable = [
+            'id',
+            'nombre',
+            'apellido',
+            'telefono',
+            'created_at',
+            'updated_at',
+            'deleted_at'
+        ];
+
+        $datosDePersona = [
+            "nombre" => "Juancito",
+            "Apellido" => "Alberto"
+        ];
+
+        $response = $this->put('/api/personas/5',$datosDePersona);
+        $response -> assertStatus(200);
+        $response -> assertJsonStructure($estructuraEsperable);
+        $response -> assertJsonFragment($datosDePersona);
+        $this->assertDatabaseHas('personas', [
+            "id" => 2,
+            "nombre" => "Juancito",
+            "Apellido" => "Alberto"
+        ]);
+    }
 }
