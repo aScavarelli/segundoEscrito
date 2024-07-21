@@ -9,7 +9,7 @@ use App\Http\Controllers\controladorPersona;
 
 class test extends TestCase
 {
-    public function pruebaCrearUsuario()
+    public function test_CrearUsuario()
     {
         $estructuraEsperable = [
             'id',
@@ -38,7 +38,7 @@ class test extends TestCase
         ]);
     }
 
-    public function eliminarPersona()
+    public function test_eliminarPersona()
     {
         $response = $this->delete('/api/personas/1');
         $response -> assertStatus(200);    
@@ -76,5 +76,24 @@ class test extends TestCase
             "nombre" => "Juancito",
             "Apellido" => "Alberto"
         ]);
+    }
+
+    public function test_listarPersonas()
+    {
+        $estructuraEsperable = [
+            '*' => [
+                'id',
+                'nombre',
+                'apellido',
+                'telefono',
+                'created_at',
+                'updated_at',
+                'deleted_at'
+            ]
+        ];
+
+        $response = $this->get('/api/personas');
+        $response->assertStatus(200);
+        $response->assertJsonStructure($estructuraEsperable);
     }
 }

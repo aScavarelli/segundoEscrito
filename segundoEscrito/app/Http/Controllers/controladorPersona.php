@@ -36,4 +36,13 @@ class controladorPersona extends Controller
         return $persona;
     }
 
+    public function Listar(Request $request){
+        return Personas::all();
+    }
+
+    public function ListarUno(Request $request, $idPersona){
+        return Personas::findOrFail($idPersona);
+
+    }
+
 }

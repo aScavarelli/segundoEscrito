@@ -14,8 +14,9 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-
-Route::post('\personas', [controladorPersona::class,'CrearPersona']);
+Route::get("/personas",[controladorPersona::class,"Listar"]);
+Route::get("/personas/{d}",[controladorPersona::class,"ListarUno"]);
+Route::post('/personas', [controladorPersona::class,'CrearPersona']);
 Route::delete("/personas/{d}",[controladorPersona::class,"Eliminar"]);
 Route::put("/personas/{d}",[controladorPersona::class,"Modificar"]);
 
